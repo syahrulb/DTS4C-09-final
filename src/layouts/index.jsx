@@ -6,7 +6,9 @@ const Index = ({ children }) => {
   return (
     <>
       <Header></Header>
-      <Container>{children}</Container>
+      <Container maxWidth='false' sx={{ mx: 3, mt: 7 }}>
+        {children}
+      </Container>
       <Footer />
     </>
   )
