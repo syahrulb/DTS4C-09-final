@@ -1,14 +1,14 @@
 // import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Layout from '../layout'
-import { Home } from '../pages'
+import Layout from '../layouts'
+import { Portal } from '../pages'
 
 function Router() {
   return (
     <>
       <Layout>
         <Routes>
-          <Route path='/' exact element={<Home />} />
+          <Route path='/' exact element={<Portal />} />
         </Routes>
       </Layout>
     </>
