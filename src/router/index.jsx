@@ -1,7 +1,7 @@
 // import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Layout from '../layouts'
-import { Portal } from '../pages'
+import Layout from 'layouts'
+import { Portal, Login } from 'pages'
 
 function Router() {
   return (
@@ -9,6 +9,7 @@ function Router() {
       <Layout>
         <Routes>
           <Route path='/' exact element={<Portal />} />
+          <Route path='/login' exact element={<Login />} />
         </Routes>
       </Layout>
     </>
