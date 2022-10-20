@@ -8,7 +8,7 @@ const Index = ({ children }) => {
     <>
       <SidePanel />
       <Header />
-      <Container maxWidth='false' sx={{ mx: 3, mt: 7 }}>
+      <Container maxWidth='xl' sx={{ mx: 3, mt: 7 }} fixed>
         {children}
       </Container>
       <Footer />
