@@ -7,12 +7,23 @@ import Box from '@mui/material/Box'
 import { useState } from 'react'
 import { grey } from '@mui/material/colors'
 import SearchIcon from '@mui/icons-material/Search'
+import Tooltip from '@mui/material/Tooltip'
+import { useDispatch } from 'react-redux'
+import { setSidePanel } from 'store/sidePanel'
+
 const navItems = ['News', 'Portal']
 const Header = () => {
+  const dispatch = useDispatch()
   const [active, setActive] = useState('News')
-  const btnClick = (event, key) => {
+  const btnMenuClick = (event, key) => {
     event.preventDefault()
     setActive(key)
+  }
+  const btnAuthClick = open => event => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return
+    }
+    dispatch(setSidePanel(open))
   }
   return (
     <>
@@ -41,7 +52,7 @@ const Header = () => {
               } else {
                 return (
                   <Button
-                    onClick={event => btnClick(event, item)}
+                    onClick={event => btnMenuClick(event, item)}
                     key={item}
                     sx={{ color: 'inherit', fontWeight: 'bold', mx: 1 }}
                   >
@@ -55,9 +66,11 @@ const Header = () => {
             <IconButton size='large' aria-label='show 4 new mails' color='inherit'>
               <SearchIcon />
             </IconButton>
-            <IconButton sx={{ ml: 1 }}>
-              <MenuIcon />
-            </IconButton>
+            <Tooltip title='Authentication'>
+              <IconButton onClick={btnAuthClick(true)} sx={{ ml: 1 }}>
+                <MenuIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
         </Toolbar>
       </AppBar>
