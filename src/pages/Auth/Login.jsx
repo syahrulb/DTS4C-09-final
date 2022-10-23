@@ -1,14 +1,15 @@
 import { useReducer } from 'react'
 import { CardContent, TextField, CardActions, Button, Box, Container } from '@mui/material'
+import { signingIn } from 'utils/firebase/sign'
 import { useDispatch } from 'react-redux'
-import { signingIn } from 'store/authentication'
+import { declareUuid } from 'store/authentication'
 const initialForm = () => {
   return {
     email: '',
     password: ''
   }
 }
-const fungsiFormReducer = async (state, action) => {
+const fungsiFormReducer = (state, action) => {
   switch (action.type) {
     case 'email':
       return { ...state, email: action.payload }
@@ -20,8 +21,8 @@ const fungsiFormReducer = async (state, action) => {
       return state
   }
 }
-
 const Login = () => {
+  const dispatch = useDispatch()
   const [getForm, setForm] = useReducer(fungsiFormReducer, {
     email: '',
     password: ''
@@ -30,7 +31,12 @@ const Login = () => {
   const onSubmitForm = async event => {
     event.preventDefault()
     const { email, password } = getForm
-    useDispatch(signingIn(email, password))
+    try {
+      const response = await signingIn(email, password)
+      dispatch(declareUuid(response.user))
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <Container maxWidth='xl' sx={{ mx: 3, mt: 7, justifyContent: 'center', alignItems: 'center' }}>
