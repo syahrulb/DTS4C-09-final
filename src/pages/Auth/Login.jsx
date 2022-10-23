@@ -1,10 +1,14 @@
 import { useReducer } from 'react'
 import { CardContent, TextField, CardActions, Button, Box, Container } from '@mui/material'
-const initialForm = {
-  email: '',
-  password: ''
+import { useDispatch } from 'react-redux'
+import { signingIn } from 'store/authentication'
+const initialForm = () => {
+  return {
+    email: '',
+    password: ''
+  }
 }
-const fungsiFormReducer = (state, action) => {
+const fungsiFormReducer = async (state, action) => {
   switch (action.type) {
     case 'email':
       return { ...state, email: action.payload }
@@ -16,17 +20,22 @@ const fungsiFormReducer = (state, action) => {
       return state
   }
 }
+
 const Login = () => {
-  const [getForm, setForm] = useReducer(fungsiFormReducer, initialForm)
+  const [getForm, setForm] = useReducer(fungsiFormReducer, {
+    email: '',
+    password: ''
+  })
   const onChangerValue = event => setForm({ type: event.target.id.replace('id-', ''), payload: event.target.value })
-  const onSubmitForm = event => {
+  const onSubmitForm = async event => {
     event.preventDefault()
-    setForm({ type: 'reset' })
+    const { email, password } = getForm
+    useDispatch(signingIn(email, password))
   }
   return (
     <Container maxWidth='xl' sx={{ mx: 3, mt: 7, justifyContent: 'center', alignItems: 'center' }}>
       <Box display='flex' justifyContent='center' alignItems='center'>
-        <form action={onSubmitForm}>
+        <form onSubmit={onSubmitForm}>
           <CardContent sx={{ minWidth: 275 }}>
             <TextField
               fullWidth

@@ -2,8 +2,12 @@
 import { Routes, Route } from 'react-router-dom'
 import Layout from 'layouts'
 import { Portal, Login, Register } from 'pages'
-
+import { initLogin } from 'store/authentication'
+import { useEffect } from 'react'
 function Router() {
+  useEffect(() => {
+    initLogin(console.log)
+  }, [])
   return (
     <>
       <Layout>
