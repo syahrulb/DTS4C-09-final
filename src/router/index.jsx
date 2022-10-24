@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { declareUuid } from 'store/authentication'
 
-function Router() {
+const Router = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     listener(val => {

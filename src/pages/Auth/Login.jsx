@@ -39,7 +39,7 @@ const Login = () => {
     }
   }
   return (
-    <Container maxWidth='xl' sx={{ mx: 3, mt: 7, justifyContent: 'center', alignItems: 'center' }}>
+    <Container maxWidth='xl' sx={{ mt: 7, justifyContent: 'center', alignItems: 'center' }}>
       <Box display='flex' justifyContent='center' alignItems='center'>
         <form onSubmit={onSubmitForm}>
           <CardContent sx={{ minWidth: 275 }}>
@@ -64,7 +64,7 @@ const Login = () => {
               sx={{ my: 1 }}
             />
           </CardContent>
-          <CardActions>
+          <CardActions sx={{ justifyContent: 'right', alignItems: 'right', mr: 1 }}>
             <Button size='small' type='submit' color='success'>
               Simpan
             </Button>

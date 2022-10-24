@@ -12,10 +12,10 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
 
 const Left = () => {
-  const isOpen = useSelector(state => state.sidePanel.isOpen)
   const dispatch = useDispatch()
+  const isOpen = useSelector(state => state.sidePanel.isOpen)
+  const isLogin = useSelector(state => state.sidePanel.isLogin)
   const anchor = 'left'
-
   const toggleDrawer = open => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return
@@ -32,30 +32,36 @@ const Left = () => {
           onKeyDown={toggleDrawer(false)}
         >
           <List>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <LoginIcon />
-                </ListItemIcon>
-                <ListItemText primary='Login' />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <LockOpenIcon />
-                </ListItemIcon>
-                <ListItemText primary='Register' />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <LogoutIcon />
-                </ListItemIcon>
-                <ListItemText primary='logout' />
-              </ListItemButton>
-            </ListItem>
+            {isLogin || (
+              <>
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <LoginIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Login' />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <LockOpenIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Register' />
+                  </ListItemButton>
+                </ListItem>
+              </>
+            )}
+            {isLogin && (
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <LogoutIcon />
+                  </ListItemIcon>
+                  <ListItemText primary='logout' />
+                </ListItemButton>
+              </ListItem>
+            )}
           </List>
         </Box>
       </Drawer>

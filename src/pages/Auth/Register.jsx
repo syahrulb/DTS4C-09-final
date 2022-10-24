@@ -1,8 +1,8 @@
-import { useReducer, /*useContext*/ } from 'react'
+import { useReducer /*useContext*/ } from 'react'
 // import { useNavigate } from "react-router-dom";
 import { CardContent, TextField, CardActions, Button, Box, Container } from '@mui/material'
 // import { AuthContext } from "../../components/Provider/AuthProvider";
-import { signingUp } from "../../utils/firebase/signup";
+import { signingUp } from '../../utils/firebase/signup'
 // import { signingIn } from "../../utils/firebase/signin";
 
 const initialForm = {
@@ -33,11 +33,11 @@ const Register = () => {
     event.preventDefault()
     setForm({ type: 'reset' })
   }
-  const signUp = async (event) => {
+  const signUp = async event => {
     try {
       event.preventDefault()
-      console.log(getForm.email,"ini get form")
-      if(getForm.password === getForm.repassword){
+      console.log(getForm.email, 'ini get form')
+      if (getForm.password === getForm.repassword) {
         const response = await signingUp(getForm.email, getForm.password)
         console.log(response)
         if (!response.message) {
@@ -49,17 +49,17 @@ const Register = () => {
           //   navigate("/");
           // }
         } else {
-          console.log("error");
+          console.log('error')
         }
       } else {
         throw new Error(`Password isn't match`)
       }
-    } catch(e) {
-      alert('error: '+ e)
+    } catch (e) {
+      alert('error: ' + e)
     }
   }
   return (
-    <Container maxWidth='xl' sx={{ mx: 3, mt: 7, justifyContent: 'center', alignItems: 'center' }}>
+    <Container maxWidth='xl' sx={{ mt: 7, justifyContent: 'center', alignItems: 'center' }}>
       <Box display='flex' justifyContent='center' alignItems='center'>
         <form action={onSubmitForm}>
           <CardContent sx={{ minWidth: 275 }}>
@@ -95,7 +95,7 @@ const Register = () => {
               sx={{ my: 1 }}
             />
           </CardContent>
-          <CardActions>
+          <CardActions sx={{ justifyContent: 'right', alignItems: 'right', mr: 1 }}>
             <Button size='small' type='submit' color='success' onClick={signUp}>
               Register
             </Button>
