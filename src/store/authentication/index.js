@@ -3,8 +3,12 @@ const authentication = createSlice({
   name: 'auth',
   initialState: { isLogin: false },
   reducers: {
-    declareUuid: (state, action) => (state.isLogin = action.payload),
-    logout: state => (state.isLogin = false)
+    declareUuid: (state, action) => {
+      state.isLogin = action.payload
+    },
+    logout: state => {
+      state.isLogin = false
+    }
   }
 })
 export const { declareUuid, logout } = authentication.actions

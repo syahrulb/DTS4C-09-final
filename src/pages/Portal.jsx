@@ -1,8 +1,15 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import { getNewsNytimes } from 'store/news'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 const Portal = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getNewsNytimes())
+  }, [])
   return (
     <>
       {/* news hot topics */}
