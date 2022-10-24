@@ -1,6 +1,7 @@
 import Drawer from '@mui/material/Drawer'
 import { useSelector, useDispatch } from 'react-redux'
 import { setSidePanel } from 'store/sidePanel'
+import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -34,7 +35,7 @@ const Left = () => {
           <List>
             {isLogin || (
               <>
-                <ListItem disablePadding>
+                <ListItem component={Link} to="/login" disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
                       <LoginIcon />
@@ -42,7 +43,7 @@ const Left = () => {
                     <ListItemText primary='Login' />
                   </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding>
+                <ListItem component={Link} to="/register" disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
                       <LockOpenIcon />
@@ -53,7 +54,7 @@ const Left = () => {
               </>
             )}
             {isLogin && (
-              <ListItem disablePadding>
+              <ListItem component={Link} to="/" disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
                     <LogoutIcon />
