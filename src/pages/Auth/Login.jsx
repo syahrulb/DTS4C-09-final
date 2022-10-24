@@ -3,6 +3,7 @@ import { CardContent, TextField, CardActions, Button, Box, Container } from '@mu
 import { signingIn } from 'utils/firebase/sign'
 import { useDispatch } from 'react-redux'
 import { declareUuid } from 'store/authentication'
+import logo from 'assets/images/daily-bugle-logo.png'
 const initialForm = () => {
   return {
     email: '',
@@ -43,6 +44,9 @@ const Login = () => {
       <Box display='flex' justifyContent='center' alignItems='center'>
         <form onSubmit={onSubmitForm}>
           <CardContent sx={{ minWidth: 275 }}>
+            <center>
+              <img src={logo} width='80%' alt='baggian foto' />
+            </center>
             <TextField
               fullWidth
               id='id-email'

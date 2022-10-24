@@ -4,6 +4,7 @@ import { CardContent, TextField, CardActions, Button, Box, Container } from '@mu
 // import { AuthContext } from "../../components/Provider/AuthProvider";
 import { signingUp } from '../../utils/firebase/signup'
 // import { signingIn } from "../../utils/firebase/signin";
+import logo from 'assets/images/daily-bugle-logo.png'
 
 const initialForm = {
   email: '',
@@ -63,6 +64,9 @@ const Register = () => {
       <Box display='flex' justifyContent='center' alignItems='center'>
         <form action={onSubmitForm}>
           <CardContent sx={{ minWidth: 275 }}>
+            <center>
+              <img src={logo} width='80%' alt='baggian foto' />
+            </center>
             <TextField
               fullWidth
               id='id-email'
