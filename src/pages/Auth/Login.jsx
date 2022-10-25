@@ -1,9 +1,12 @@
 import { useReducer } from 'react'
 import { CardContent, TextField, CardActions, Button, Box, Container } from '@mui/material'
 import { signingIn } from 'utils/firebase/sign'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { declareUuid } from 'store/authentication'
 import logo from 'assets/images/daily-bugle-logo.png'
+import { handleClick } from 'store/snackbars'
+import { useNavigate } from 'react-router-dom'
+
 const initialForm = () => {
   return {
     email: '',
@@ -24,6 +27,8 @@ const fungsiFormReducer = (state, action) => {
 }
 const Login = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const isOpen = useSelector(state => state.snackbars.isOpen)
   const [getForm, setForm] = useReducer(fungsiFormReducer, {
     email: '',
     password: ''
@@ -32,12 +37,26 @@ const Login = () => {
   const onSubmitForm = async event => {
     event.preventDefault()
     const { email, password } = getForm
-    try {
-      const response = await signingIn(email, password)
-      dispatch(declareUuid(response.user))
-    } catch (error) {
-      console.log(error)
-    }
+    await signingIn(email, password)
+      .then(response => {
+        dispatch(declareUuid(response.uid))
+        console.log(response)
+        dispatch(
+          handleClick({
+            message: `Selamat datang ${response.user.email}`,
+            severity: 'info'
+          })
+        )
+        navigate('/')
+      })
+      .catch(errors => {
+        dispatch(
+          handleClick({
+            message: errors.message,
+            severity: 'error'
+          })
+        )
+      })
   }
   return (
     <Container maxWidth='xl' sx={{ mt: 7, justifyContent: 'center', alignItems: 'center' }}>
@@ -69,7 +88,7 @@ const Login = () => {
             />
           </CardContent>
           <CardActions sx={{ justifyContent: 'right', alignItems: 'right', mr: 1 }}>
-            <Button size='small' type='submit' color='success'>
+            <Button size='small' type='submit' color='success' disabled={isOpen}>
               Simpan
             </Button>
           </CardActions>

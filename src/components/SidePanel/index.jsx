@@ -11,17 +11,40 @@ import ListItemText from '@mui/material/ListItemText'
 import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
+import { signingOut } from 'utils/firebase/signOut'
+import { handleClick } from 'store/snackbars'
+import { logout } from 'store/authentication'
 
 const Left = () => {
   const dispatch = useDispatch()
   const isOpen = useSelector(state => state.sidePanel.isOpen)
-  const isLogin = useSelector(state => state.sidePanel.isLogin)
+  const isLogin = useSelector(state => state.authentication.isLogin)
   const anchor = 'left'
   const toggleDrawer = open => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return
     }
     dispatch(setSidePanel(open))
+  }
+  const btnLogout = async () => {
+    await signingOut()
+      .then(() => {
+        dispatch(
+          handleClick({
+            message: 'Berhasil Melakukan Prosedur logout',
+            severity: 'success'
+          })
+        )
+        dispatch(logout())
+      })
+      .catch(errors => {
+        dispatch(
+          handleClick({
+            message: errors.message,
+            severity: 'error'
+          })
+        )
+      })
   }
   return (
     <>
@@ -33,9 +56,9 @@ const Left = () => {
           onKeyDown={toggleDrawer(false)}
         >
           <List>
-            {isLogin || (
+            {isLogin == false && (
               <>
-                <ListItem component={Link} to="/login" disablePadding>
+                <ListItem component={Link} to='/login' disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
                       <LoginIcon />
@@ -43,7 +66,7 @@ const Left = () => {
                     <ListItemText primary='Login' />
                   </ListItemButton>
                 </ListItem>
-                <ListItem component={Link} to="/register" disablePadding>
+                <ListItem component={Link} to='/register' disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
                       <LockOpenIcon />
@@ -53,8 +76,8 @@ const Left = () => {
                 </ListItem>
               </>
             )}
-            {isLogin && (
-              <ListItem component={Link} to="/" disablePadding>
+            {isLogin != false && (
+              <ListItem onClick={btnLogout} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
                     <LogoutIcon />

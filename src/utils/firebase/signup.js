@@ -5,7 +5,6 @@ export const signingUp = async (email, password) => {
     const userClient = await createUserWithEmailAndPassword(auth, email, password)
     return userClient.user
   } catch (error) {
-    console.log(error)
     return error
   }
 }

@@ -1,10 +1,11 @@
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from './firebase'
-export const signingIn = (email, password) => async () => {
-  try {
-    const userClient = await signInWithEmailAndPassword(auth, email, password)
-    return userClient.user
-  } catch (error) {
-    return error
-  }
+export const signingIn = async (email, password) => {
+  return await signInWithEmailAndPassword(auth, email, password)
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      throw new Error(error)
+    })
 }

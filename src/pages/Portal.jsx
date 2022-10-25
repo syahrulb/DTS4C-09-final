@@ -11,7 +11,7 @@ const Portal = () => {
   return (
     <>
       {/* news hot topics */}
-      <Container maxWidth={false} sx={{ maxWidth: '90%' }}>
+      <Container maxWidth={false} sx={{ maxWidth: '95%' }}>
         <Grid container item sx={{ mt: 6 }}>
           <Typography
             variant='h4'
@@ -36,8 +36,8 @@ const Portal = () => {
                     width: '100%',
                     height: '100%',
                     bottom: 0,
-                    mb: 1,
-                    ml: 1
+                    mb: 2,
+                    ml: 2
                   }}
                 >
                   <Typography
@@ -88,6 +88,7 @@ const Portal = () => {
           </Grid>
         </Grid>
       </Container>
+      {/* bagian  */}
     </>
   )
 }
