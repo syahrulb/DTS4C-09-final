@@ -1,4 +1,4 @@
-import { Container, Typography, Grid, Card, Box, CardMedia, CardContent } from '@mui/material'
+import { Container, Typography, Grid, Card, Box, CardMedia, CardContent, Skeleton } from '@mui/material'
 import { getNewsMediastack } from 'store/news'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -30,64 +30,93 @@ const Portal = () => {
             <Grid item xs={8}>
               <Card sx={{ position: 'relative' }}>
                 {isLoading ? (
-                  <></>
+                  <>
+                    <Skeleton variant='rectangular' width={'100%'} height='400px' />
+                  </>
                 ) : (
                   <CardMedia component='img' height='400' image={higlightNews.image} sx={{ position: 'relative' }} />
                 )}
-
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    display: 'flex',
-                    flexDirection: 'column-reverse',
-                    alignItems: 'flex-start',
-                    alignContent: 'flex-end',
-                    width: '100%',
-                    height: '100%',
-                    bottom: 0,
-                    mb: 2,
-                    ml: 2
-                  }}
-                >
-                  <Typography
-                    variant='body1'
+                {isLoading ? (
+                  <Box
                     sx={{
-                      color: 'white',
-                      WebkitLineClamp: 1,
-                      display: '-webkit-box',
-                      overflow: 'hidden',
-                      WebkitBoxOrient: 'vertical'
+                      position: 'absolute',
+                      display: 'flex',
+                      flexDirection: 'column-reverse',
+                      alignItems: 'flex-start',
+                      alignContent: 'flex-end',
+                      width: '100%',
+                      height: '100%',
+                      bottom: 0,
+                      mb: 2,
+                      ml: 2
                     }}
                   >
-                    {isLoading ? '' : `${higlightNews.category}`}
-                  </Typography>
-                  <Typography
-                    variant='h6'
+                    <Skeleton width='60%' />
+                    <Skeleton />
+                  </Box>
+                ) : (
+                  <Box
                     sx={{
-                      color: 'white',
-                      WebkitLineClamp: 1,
-                      display: '-webkit-box',
-                      overflow: 'hidden',
-                      WebkitBoxOrient: 'vertical'
+                      position: 'absolute',
+                      display: 'flex',
+                      flexDirection: 'column-reverse',
+                      alignItems: 'flex-start',
+                      alignContent: 'flex-end',
+                      width: '100%',
+                      height: '100%',
+                      bottom: 0,
+                      mb: 2,
+                      ml: 2
                     }}
                   >
-                    {isLoading ? '' : `${higlightNews.title}`}
-                  </Typography>
-                </Box>
+                    <Typography
+                      variant='body1'
+                      sx={{
+                        color: 'white',
+                        WebkitLineClamp: 1,
+                        display: '-webkit-box',
+                        overflow: 'hidden',
+                        WebkitBoxOrient: 'vertical'
+                      }}
+                    >
+                      {higlightNews.category}
+                    </Typography>
+                    <Typography
+                      variant='h6'
+                      sx={{
+                        color: 'white',
+                        WebkitLineClamp: 1,
+                        display: '-webkit-box',
+                        overflow: 'hidden',
+                        WebkitBoxOrient: 'vertical'
+                      }}
+                    >
+                      {higlightNews.title}
+                    </Typography>
+                  </Box>
+                )}
               </Card>
             </Grid>
             <Grid container item xs={4} rowSpacing={1}>
-              <Typography
-                variant='h5'
-                sx={{
-                  WebkitLineClamp: 13,
-                  display: '-webkit-box',
-                  overflow: 'hidden',
-                  WebkitBoxOrient: 'vertical'
-                }}
-              >
-                {isLoading ? '' : `${higlightNews.description}`}
-              </Typography>
+              {isLoading ? (
+                <>
+                  <Skeleton width='100%' />
+                  <Skeleton width='100%' />
+                  <Skeleton />
+                </>
+              ) : (
+                <Typography
+                  variant='h5'
+                  sx={{
+                    WebkitLineClamp: 13,
+                    display: '-webkit-box',
+                    overflow: 'hidden',
+                    WebkitBoxOrient: 'vertical'
+                  }}
+                >
+                  {higlightNews.description}
+                </Typography>
+              )}
             </Grid>
           </Grid>
         </Grid>
@@ -104,26 +133,49 @@ const Portal = () => {
           Lastest News
         </Typography>
         <Grid Grid container spacing={2}>
-          {news.map(item => {
+          {(isLoading ? Array.from(new Array(10)) : news).map((item, index) => {
             return (
               <>
-                <Grid key={item.published_at} item xs={3}>
+                <Grid key={item ? item.published_at : index} item xs={3}>
                   <Card elevation={0}>
-                    <CardMedia component='img' height='140' image={item.image} alt='' />
+                    {item ? (
+                      <CardMedia component='img' height='140' image={item.image} alt='' />
+                    ) : (
+                      <Skeleton variant='rectangular' height='140' />
+                    )}
+
                     <CardContent>
-                      <Typography gutterBottom variant='h5' component='div'>
-                        {item.title}
-                      </Typography>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          flexWrap: 'wrap'
-                        }}
-                      >
-                        <Typography variant='body1'>{perbedaanWaktu(item.published_at)}</Typography>
-                        <Typography variant='body1'>{item.category}</Typography>
-                      </Box>
+                      {item ? (
+                        <>
+                          <Typography gutterBottom variant='h5' component='div'>
+                            {item.title}
+                          </Typography>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              flexWrap: 'wrap'
+                            }}
+                          >
+                            <Typography variant='body1'>{perbedaanWaktu(item.published_at)}</Typography>
+                            <Typography variant='body1'>{item.category}</Typography>
+                          </Box>
+                        </>
+                      ) : (
+                        <>
+                          <Skeleton width='100%' />
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              flexWrap: 'wrap'
+                            }}
+                          >
+                            <Skeleton />
+                            <Skeleton />
+                          </Box>
+                        </>
+                      )}
                     </CardContent>
                   </Card>
                 </Grid>
