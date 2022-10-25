@@ -1,8 +1,8 @@
 import axios from 'axios'
 const api = axios.create({
-  baseURL: 'https://api.nytimes.com/svc/'
+  baseURL: 'http://api.mediastack.com/v1/news'
 })
 export const apiKey = {
-  'api-key': process.env.REACT_APP_NYTIMES_APIKEY
+  access_key: process.env.REACT_APP_MEDIASTACK_APIKEY
 }
 export default api

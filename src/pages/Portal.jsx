@@ -1,12 +1,16 @@
-import { Container, Typography, Grid, Card, Box, CardMedia } from '@mui/material'
-import { getNewsNytimes } from 'store/news'
+import { Container, Typography, Grid, Card, Box, CardMedia, CardContent } from '@mui/material'
+import { getNewsMediastack } from 'store/news'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import cover from 'assets/images/cover.png'
+import { useDispatch, useSelector } from 'react-redux'
+import { perbedaanWaktu } from 'utils/moment'
+// import cover from 'assets/images/cover.png'
 const Portal = () => {
   const dispatch = useDispatch()
+  const news = useSelector(state => state.news.news)
+  const higlightNews = useSelector(state => state.news.higlightNews)
+  const isLoading = useSelector(state => state.news.isLoading)
   useEffect(() => {
-    dispatch(getNewsNytimes())
+    dispatch(getNewsMediastack())
   }, [])
   return (
     <>
@@ -25,7 +29,12 @@ const Portal = () => {
           <Grid container columnSpacing={2}>
             <Grid item xs={8}>
               <Card sx={{ position: 'relative' }}>
-                <CardMedia component='img' height='400' image={cover} sx={{ position: 'relative' }} />
+                {isLoading ? (
+                  <></>
+                ) : (
+                  <CardMedia component='img' height='400' image={higlightNews.image} sx={{ position: 'relative' }} />
+                )}
+
                 <Box
                   sx={{
                     position: 'absolute',
@@ -50,7 +59,7 @@ const Portal = () => {
                       WebkitBoxOrient: 'vertical'
                     }}
                   >
-                    Hot line: 007-005-3009
+                    {isLoading ? '' : `${higlightNews.category}`}
                   </Typography>
                   <Typography
                     variant='h6'
@@ -62,14 +71,11 @@ const Portal = () => {
                       WebkitBoxOrient: 'vertical'
                     }}
                   >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus omnis repudiandae blanditiis
-                    reiciendis est dolorem, dignissimos ex veritatis earum alias incidunt, obcaecati harum repellat
-                    voluptate quia ab unde ipsum labore.
+                    {isLoading ? '' : `${higlightNews.title}`}
                   </Typography>
                 </Box>
               </Card>
             </Grid>
-
             <Grid container item xs={4} rowSpacing={1}>
               <Typography
                 variant='h5'
@@ -80,15 +86,52 @@ const Portal = () => {
                   WebkitBoxOrient: 'vertical'
                 }}
               >
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam pariatur voluptatum blanditiis quam
-                rem commodi consequuntur molestias at! Accusantium, recusandae quo harum accusamus odio ducimus
-                possimus? Accusantium inventore porro iure?
+                {isLoading ? '' : `${higlightNews.description}`}
               </Typography>
             </Grid>
           </Grid>
         </Grid>
       </Container>
-      {/* bagian  */}
+      {/* bagian  last news*/}
+      <Container maxWidth={false} sx={{ maxWidth: '95%' }}>
+        <Typography
+          variant='h4'
+          sx={{
+            my: 2,
+            fontWeight: 700
+          }}
+        >
+          Lastest News
+        </Typography>
+        <Grid Grid container spacing={2}>
+          {news.map(item => {
+            return (
+              <>
+                <Grid key={item.published_at} item xs={3}>
+                  <Card elevation={0}>
+                    <CardMedia component='img' height='140' image={item.image} alt='' />
+                    <CardContent>
+                      <Typography gutterBottom variant='h5' component='div'>
+                        {item.title}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          flexWrap: 'wrap'
+                        }}
+                      >
+                        <Typography variant='body1'>{perbedaanWaktu(item.published_at)}</Typography>
+                        <Typography variant='body1'>{item.category}</Typography>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </>
+            )
+          })}
+        </Grid>
+      </Container>
     </>
   )
 }
