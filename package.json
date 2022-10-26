@@ -1,7 +1,7 @@
 {
   "name": "dts-mini-project",
   "version": "0.1.0",
-  "homepage": "https://syahrulb.github.io/DTS4C-09-final/",
+  "homepage": "https://syahrulb.github.io/DTS4C-09-final",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
