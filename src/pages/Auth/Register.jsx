@@ -49,7 +49,7 @@ const Register = () => {
               severity: 'info'
             })
           )
-          navigate('login')
+          navigate('/login')
         } else {
           dispatch(
             handleClick({

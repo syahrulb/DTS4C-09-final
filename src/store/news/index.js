@@ -13,12 +13,17 @@ const news = createSlice({
       sources: 'fullcomment',
       limit: 10,
       offset: 0
-    }
+    },
+    pickNews: {},
+    keywords: ''
   },
   reducers: {
     setNews: (state, action) => {
       state.news = action.payload
-      state.higlightNews = action.payload[0]
+      if (action.payload.length != 0) {
+        state.isLoading = true
+        state.higlightNews = action.payload[0]
+      }
     },
     setSingleNews: (state, action) => (state.singleNews = action.payload),
     setLoading: (state, action) => {
@@ -26,6 +31,12 @@ const news = createSlice({
     },
     setTotalNews: (state, action) => {
       state.totalNews = action.payload
+    },
+    setKeyword: (state, action) => {
+      state.keywords = action.payload
+    },
+    selectNews: (state, action) => {
+      state.pickNews = action.payload
     }
   }
 })
@@ -34,7 +45,7 @@ export const getNewsMediastack = () => async (dispatch, getState) => {
   const { actions } = news
   dispatch(actions.setLoading(true))
   await axios
-    .get('', { params: { ...apiKey, ...getState().news.params } })
+    .get('', { params: { ...apiKey, ...getState().news.params, keywords: getState().news.keywords } })
     .then(({ data }) => {
       dispatch(actions.setNews(data.data))
       dispatch(actions.setTotalNews(data.pagination.total))
@@ -44,5 +55,5 @@ export const getNewsMediastack = () => async (dispatch, getState) => {
       dispatch(actions.setLoading(false))
     })
 }
-export const { setNew, setSingleNews } = news.actions
+export const { setNew, setSingleNews, selectNews, setKeyword } = news.actions
 export default news.reducer

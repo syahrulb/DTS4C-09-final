@@ -1,16 +1,34 @@
 import { Container, Typography, Grid, Card, CardMedia, Box, Skeleton } from '@mui/material'
-import { getNewsMediastack } from 'store/news'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+// import { getNewsMediastack } from 'store/news'
+import { useSelector } from 'react-redux'
 import { perbedaanWaktu } from 'utils/moment'
 // import cover from 'assets/images/cover.png'
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+
 const Detail = () => {
-  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  // const dispatch = useDispatch()
   // const news = useSelector(state => state.news.news)
-  const higlightNews = useSelector(state => state.news.higlightNews)
+  const pickNews = useSelector(state => state.news.pickNews)
   const isLoading = useSelector(state => state.news.isLoading)
+  const [loading, setLoading] = useState(false)
+  const [article, setArticle] = useState('')
+  const getHml = async () => {
+    setLoading(true)
+    axios(pickNews.url)
+      .then(({ data }) => {
+        setArticle(data)
+        setLoading(false)
+      })
+      .catch(eror => {
+        console.log(eror)
+      })
+  }
   useEffect(() => {
-    dispatch(getNewsMediastack())
+    Object.keys(pickNews).length === 0 && navigate('/')
+    getHml()
   }, [])
   return (
     <>
@@ -34,7 +52,7 @@ const Detail = () => {
                     <Skeleton variant='rectangular' width={'100%'} height='400px' />
                   </>
                 ) : (
-                  <CardMedia component='img' height='400' image={higlightNews.image} sx={{ position: 'relative' }} />
+                  <CardMedia component='img' height='400' image={pickNews.image} sx={{ position: 'relative' }} />
                 )}
               </Card>
             </Grid>
@@ -50,10 +68,10 @@ const Detail = () => {
             fontWeight: 700
           }}
         >
-          {higlightNews.title}
+          {pickNews.title}
         </Typography>
-        {higlightNews ? (
-            <>
+        {pickNews ? (
+          <>
             <Box
               sx={{
                 display: 'flex',
@@ -62,12 +80,12 @@ const Detail = () => {
                 maxWidth: '12%'
               }}
             >
-              <Typography variant='body2'>{perbedaanWaktu(higlightNews.published_at)}</Typography>
-              <Typography variant='body2'>{higlightNews.category}</Typography>
+              <Typography variant='body2'>{perbedaanWaktu(pickNews.published_at)}</Typography>
+              <Typography variant='body2'>{pickNews.category}</Typography>
             </Box>
-            </>
-          ) : (
-            <>
+          </>
+        ) : (
+          <>
             <Box
               sx={{
                 display: 'flex',
@@ -78,20 +96,27 @@ const Detail = () => {
             >
               <Skeleton />
               <Skeleton />
-            </Box>            
-            </>
-          )}
+            </Box>
+          </>
+        )}
         <Typography
-                  variant='body1'
-                  sx={{
-                    WebkitLineClamp: 13,
-                    display: '-webkit-box',
-                    overflow: 'hidden',
-                    WebkitBoxOrient: 'vertical'
-                  }}
-                >
-                  {higlightNews.description}
-                </Typography>
+          variant='body1'
+          sx={{
+            WebkitLineClamp: 13,
+            display: '-webkit-box',
+            overflow: 'hidden',
+            WebkitBoxOrient: 'vertical'
+          }}
+        >
+          {pickNews.description}
+        </Typography>
+      </Container>
+      <Container maxWidth={false} sx={{ maxWidth: '95%' }}>
+        {loading && (
+          <>
+            <div dangerouslySetInnerHTML={{ __html: article }}></div>
+          </>
+        )}
       </Container>
     </>
   )

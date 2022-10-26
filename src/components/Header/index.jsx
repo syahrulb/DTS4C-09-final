@@ -10,20 +10,29 @@ import SearchIcon from '@mui/icons-material/Search'
 import Tooltip from '@mui/material/Tooltip'
 import { useDispatch } from 'react-redux'
 import { setSidePanel } from 'store/sidePanel'
+import { handleModalClick } from 'store/modal'
+import { useNavigate } from 'react-router-dom'
 
 const navItems = ['News', 'Portal']
 const Header = () => {
+  const navigate = useNavigate()
+
   const dispatch = useDispatch()
   const [active, setActive] = useState('News')
   const btnMenuClick = (event, key) => {
     event.preventDefault()
     setActive(key)
+    navigate('/')
   }
   const btnAuthClick = open => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return
     }
     dispatch(setSidePanel(open))
+  }
+  const btnOpenModal = event => {
+    event?.preventDefault()
+    dispatch(handleModalClick())
   }
   return (
     <>
@@ -63,7 +72,7 @@ const Header = () => {
             })}
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <IconButton size='large' aria-label='show 4 new mails' color='inherit'>
+            <IconButton onClick={btnOpenModal} size='large' aria-label='show 4 new mails' color='inherit'>
               <SearchIcon />
             </IconButton>
             <Tooltip title='Authentication'>

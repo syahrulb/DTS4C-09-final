@@ -1,17 +1,29 @@
 import { Container, Typography, Grid, Card, Box, CardMedia, CardContent, Skeleton } from '@mui/material'
-import { getNewsMediastack } from 'store/news'
+import { getNewsMediastack, selectNews } from 'store/news'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { perbedaanWaktu } from 'utils/moment'
-// import cover from 'assets/images/cover.png'
+import { useNavigate } from 'react-router-dom'
+
 const Portal = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const news = useSelector(state => state.news.news)
   const higlightNews = useSelector(state => state.news.higlightNews)
   const isLoading = useSelector(state => state.news.isLoading)
   useEffect(() => {
     dispatch(getNewsMediastack())
   }, [])
+  const handleOpenLastnews = item => event => {
+    event.preventDefault()
+    item && dispatch(selectNews(item))
+    item && navigate('detail')
+  }
+  const handleOpenHotnews = event => {
+    event.preventDefault()
+    dispatch(selectNews(higlightNews))
+    navigate('detail')
+  }
   return (
     <>
       {/* news hot topics */}
@@ -28,7 +40,7 @@ const Portal = () => {
           </Typography>
           <Grid container columnSpacing={2}>
             <Grid item xs={8}>
-              <Card sx={{ position: 'relative' }}>
+              <Card sx={{ position: 'relative', cursor: 'pointer' }} onClick={handleOpenHotnews}>
                 {isLoading ? (
                   <>
                     <Skeleton variant='rectangular' width={'100%'} height='400px' />
@@ -133,55 +145,56 @@ const Portal = () => {
           Lastest News
         </Typography>
         <Grid Grid container spacing={2}>
-          {(isLoading ? Array.from(new Array(10)) : news).map((item, index) => {
-            return (
-              <>
-                <Grid key={item ? item.published_at : index} item xs={3}>
-                  <Card elevation={0}>
-                    {item ? (
-                      <CardMedia component='img' height='140' image={item.image} alt='' />
-                    ) : (
-                      <Skeleton variant='rectangular' height='140' />
-                    )}
+          {(isLoading ? Array.from(new Array(10)) : news).map((item, index) => (
+            <Grid key={item ? `grid-${item.published_at}-${index}` : index} item xs={3}>
+              <Card
+                key={item ? `detail-${item.published_at}-${index}` : index}
+                elevation={0}
+                onClick={handleOpenLastnews(item)}
+                sx={{ cursor: 'pointer' }}
+              >
+                {item ? (
+                  <CardMedia component='img' height='140' image={item.image} alt='' />
+                ) : (
+                  <Skeleton variant='rectangular' height='140' />
+                )}
 
-                    <CardContent>
-                      {item ? (
-                        <>
-                          <Typography gutterBottom variant='h5' component='div'>
-                            {item.title}
-                          </Typography>
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              flexWrap: 'wrap'
-                            }}
-                          >
-                            <Typography variant='body1'>{perbedaanWaktu(item.published_at)}</Typography>
-                            <Typography variant='body1'>{item.category}</Typography>
-                          </Box>
-                        </>
-                      ) : (
-                        <>
-                          <Skeleton width='100%' />
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              flexWrap: 'wrap'
-                            }}
-                          >
-                            <Skeleton />
-                            <Skeleton />
-                          </Box>
-                        </>
-                      )}
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </>
-            )
-          })}
+                <CardContent>
+                  {item ? (
+                    <>
+                      <Typography gutterBottom variant='h5' component='div'>
+                        {item.title}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          flexWrap: 'wrap'
+                        }}
+                      >
+                        <Typography variant='body1'>{perbedaanWaktu(item.published_at)}</Typography>
+                        <Typography variant='body1'>{item.category}</Typography>
+                      </Box>
+                    </>
+                  ) : (
+                    <>
+                      <Skeleton width='100%' />
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          flexWrap: 'wrap'
+                        }}
+                      >
+                        <Skeleton />
+                        <Skeleton />
+                      </Box>
+                    </>
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
         </Grid>
       </Container>
     </>
