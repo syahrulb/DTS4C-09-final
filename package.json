@@ -2,6 +2,7 @@
   "name": "dts-mini-project",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://stevensetiawang.github.io",
   "engines": {
     "node": "16.x"
   },
@@ -23,6 +24,7 @@
     "eslint": "^8.25.0",
     "eslint-plugin-react": "^7.31.10",
     "firebase": "^9.12.1",
+    "gh-pages": "^4.0.0",
     "html-react-parser": "^3.0.4",
     "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
@@ -37,7 +39,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "development -d build"
   },
   "eslintConfig": {
     "extends": [
