@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.e6c13ad2.css",
-    "main.js": "/static/js/main.765d2eb4.js",
-    "static/js/787.f89347fe.chunk.js": "/static/js/787.f89347fe.chunk.js",
-    "static/media/daily-bugle-logo.png": "/static/media/daily-bugle-logo.a91652257e54cc5d794b.png",
-    "index.html": "/index.html",
-    "main.e6c13ad2.css.map": "/static/css/main.e6c13ad2.css.map",
-    "main.765d2eb4.js.map": "/static/js/main.765d2eb4.js.map",
-    "787.f89347fe.chunk.js.map": "/static/js/787.f89347fe.chunk.js.map"
+    "main.css": "/DTS4C-09-final/static/css/main.e6c13ad2.css",
+    "main.js": "/DTS4C-09-final/static/js/main.72f87bdb.js",
+    "static/js/787.f89347fe.chunk.js": "/DTS4C-09-final/static/js/787.f89347fe.chunk.js",
+    "static/media/daily-bugle-logo.png": "/DTS4C-09-final/static/media/daily-bugle-logo.a91652257e54cc5d794b.png",
+    "index.html": "/DTS4C-09-final/index.html",
+    "main.e6c13ad2.css.map": "/DTS4C-09-final/static/css/main.e6c13ad2.css.map",
+    "main.72f87bdb.js.map": "/DTS4C-09-final/static/js/main.72f87bdb.js.map",
+    "787.f89347fe.chunk.js.map": "/DTS4C-09-final/static/js/787.f89347fe.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.765d2eb4.js"
+    "static/js/main.72f87bdb.js"
   ]
 }
